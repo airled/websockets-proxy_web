@@ -5,12 +5,12 @@ WebsocketsProxyWeb::App.controllers :sessions do
 
   post :create do
     if account = Account.authenticate(params[:email], params[:password])
-      if account.confirmed?
+      # if account.confirmed?
         set_current_account(account)
         redirect '/profile'
-      else
-        redirect '/pending'
-      end
+      # else
+      #   redirect '/pending'
+      # end
     else
       params[:email] = h(params[:email])
       redirect "/sessions/new"
