@@ -1,0 +1,14 @@
+doctype 5
+html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+  head
+
+  body
+    => link_to 'Pproxy', '/'
+    - if current_account
+      = link_to current_account.email, '/profile'
+      = button_to 'Выйти', '/sessions/destroy', :method => :delete
+    - else
+      => link_to 'Войти', '/sessions/new'
+      => link_to 'Зарегистрироваться', '/create_user'
+
+  	== yield

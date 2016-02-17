@@ -5,7 +5,11 @@ WebsocketsProxyWeb::App.controllers :welcome do
   end
 
   get :profile, :map => '/profile' do
-    render 'profile'
+    if current_account
+      render 'profile'
+    else
+      redirect 'sessions/new'
+    end
   end
 
   get :pending, :map => '/pending' do
