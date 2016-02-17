@@ -7,6 +7,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    bcrypt (3.1.10)
     enumerable-lazy (0.0.1)
     i18n (0.7.0)
     json (1.8.3)
@@ -75,6 +76,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bcrypt
   mysql2
   padrino (= 0.13.1)
   rake

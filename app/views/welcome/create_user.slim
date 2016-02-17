@@ -1,0 +1,15 @@
+| Hi new user
+
+= form_tag url('/create_user'), :class => 'login form-horizontal' do
+
+	div class='form-group'
+		label for="email" class='col-lg-2 control-label' email
+		div class='col-lg-10'  = email_field_tag :email, :id => :email, :value => params[:email], :autofocus => true, :class => 'form-control'
+
+	div class='form-group'
+		label for="password" class='col-lg-2 control-label' password
+		div class='col-lg-10' = password_field_tag :password, :id => :password, :class => 'form-control'
+
+    div class="login-footer modal-footer"
+      = submit_tag('sign in', :class => 'btn btn-primary pull-right')
+

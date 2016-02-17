@@ -17,6 +17,7 @@ source 'https://rubygems.org'
 gem 'rake'
 
 # Component requirements
+gem 'bcrypt'
 gem 'slim'
 gem 'mysql2'
 gem 'sequel'
