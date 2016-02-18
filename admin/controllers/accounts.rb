@@ -40,6 +40,9 @@ WebsocketsProxyWeb::Admin.controllers :accounts do
     @account = Account[params[:id]]
     if @account
       if @account.modified! && @account.update(params[:account])
+        if (params[:account][:port] != nil) && (params[:account][:queue] != nil)
+          @account.update(confirmed: true)
+        end
         flash[:success] = pat(:update_success, :model => 'Account', :id =>  "#{params[:id]}")
         params[:save_and_continue] ?
           redirect(url(:accounts, :index)) :

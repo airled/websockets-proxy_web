@@ -28,6 +28,7 @@ div class="tabs-content"
         th class='header' = mat(:account, :id)
         th class='header' = mat(:account, :email)
         th class='header' = mat(:account, :role)
+        th class='header' = mat(:account, :confirmed)
         th class='header' = mat(:account, :queue)
         th class='header' = mat(:account, :port)
         th class='header list-row-action-header'
@@ -39,6 +40,7 @@ div class="tabs-content"
           td class='list-column' = account.id
           td class='list-column' = account.email
           td class='list-column' = account.role
+          td class='list-column' = account.confirmed
           td class='list-column' = account.queue
           td class='list-column' = account.port
           td class='list-column list-row-action'
