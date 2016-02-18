@@ -85,9 +85,19 @@ WebsocketsProxyWeb::Admin.controllers :accounts do
     if accounts.include? current_account
       flash[:error] = pat(:delete_error, :model => 'account')
     elsif accounts.destroy
-    
       flash[:success] = pat(:destroy_many_success, :model => 'Accounts', :ids => "#{ids.join(', ')}")
     end
     redirect url(:accounts, :index)
   end
+  
+  get :message, :with => :id do
+    @account = Account[params[:id]]
+    render 'accounts/message'
+  end
+
+  post :message do
+    email(from: ENV['EMAIL_NAME'], to: params[:to], subject: params[:subject], body: params[:body])
+    redirect url(:accounts, :index)
+  end
+
 end

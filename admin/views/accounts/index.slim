@@ -45,6 +45,7 @@ div class="tabs-content"
           td class='list-column' = account.port
           td class='list-column list-row-action'
             div class='list-row-action-wrapper'
+              = link_to '@', :href => url(:accounts, :message, :id => account.id), :rel => :tooltip, :class => 'list-row-action-wrapper-link'
               = link_to tag_icon(:edit), :href => url(:accounts, :edit, :id => account.id), :rel => :tooltip, :title => "#{pat(:edit)} account", :class => 'list-row-action-wrapper-link'
               = link_to tag_icon('trash-o'), :rel => :tooltip, :title => "#{pat(:delete)} account", :class => 'list-row-action-delete-one list-row-action-wrapper-link'
               div class='popover list-row-action-popover-delete-one left'
