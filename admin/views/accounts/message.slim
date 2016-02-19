@@ -1,9 +1,15 @@
 div class="tabs-content"
-  = form_tag '/admin/accounts/message', :method => :post do
-    = hidden_field_tag :from, :value => ENV['EMAIL_NAME']
-    = text_field_tag :to, :value => @account.email
-    = text_field_tag :subject, :value => 'PersonalProxy notification'
-    = text_area_tag :body
+  = form_tag '/admin/accounts/message', :method => :post, :class=>'login' do
 
-    div class="form-actions"
-      = submit_tag "Отправить", :class =>'list-row-action-popover-delete-one-btn btn btn-danger btn-small'
+    = hidden_field_tag :from, :value => ENV['EMAIL_NAME'], id: 'from', class: 'form-control'
+    div class='form-group'
+      label for="to" To
+      = text_field_tag :to, :value => @account.email, id: 'to', class: 'form-control'
+    div class='form-group'
+      label for="subject" Subject
+      = text_field_tag :subject, :value => 'PersonalProxy notification', id: 'subject', class: 'form-control'
+    div class='form-group'
+      label for="body" Body
+      = text_area_tag :body, id: 'body', class: 'form-control', value: "Hello, #{@account.email}! We want to inform you that your account has been successfully confirmed. Your proxy ip address and port are '' and #{@account.port}. Thank you for your attention. \n#{ENV['EMAIL_NAME']}", rows: '8'
+
+    = submit_tag "Отправить", :class =>'btn btn-default'
