@@ -12,6 +12,10 @@ WebsocketsProxyWeb::App.controllers :welcome do
     end
   end
 
+  get :plugin, :map => '/plugin' do
+    send_file 'public/@websockets-proxy-0.1.0.xpi', filename: 'plugin.xpi'
+  end
+
   get :pending, :map => '/pending' do
     render 'pending'
   end
