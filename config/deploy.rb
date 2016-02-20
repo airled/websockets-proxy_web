@@ -1,13 +1,13 @@
 require 'mina/bundler'
 require 'mina/git'
-require 'mina/rbenv'  # for rbenv support. (http://rbenv.org)
+require 'mina/rbenv'
 
 set :domain, '51.254.10.211'
 set :deploy_to, '/home/wsweb'
 set :repository, 'https://github.com/airled/websockets-proxy_web'
 set :branch, 'master'
 set :shared_paths, ['config/database.yml', 'config/secrets.yml', 'log']
-set :user, 'wsweb'    # Username in the server to SSH to.
+set :user, 'wsweb'
 
 task :environment do
   invoke :'rbenv:load'
@@ -21,7 +21,6 @@ task :setup => :environment do
   queue! %[touch "#{deploy_to}/#{shared_path}/config/database.yml"]
   queue! %[touch "#{deploy_to}/#{shared_path}/config/secrets.yml"]
   queue  %[echo "-----> Be sure to edit '#{deploy_to}/#{shared_path}/config/database.yml' and 'secrets.yml'."]
-
   if repository
     repo_host = repository.split(%r{@|://}).last.split(%r{:|\/}).first
     repo_port = /:([0-9]+)/.match(repository) && /:([0-9]+)/.match(repository)[1] || '22'
@@ -47,4 +46,14 @@ task :deploy => :environment do
       queue "touch #{deploy_to}/#{current_path}/tmp/restart.txt"
     end
   end
+end
+
+desc "Starts the application remotely."
+task :start => :environment do
+  queue "source ~/.zshrc && cd current && RACK_ENV=production bundle exec padrino s -p 3100 -d"
+end
+
+desc "Stops the application remotely."
+task :stop => :environment do
+  queue "cd current && bundle exec padrino stop"
 end

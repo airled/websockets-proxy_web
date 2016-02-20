@@ -10,6 +10,6 @@ div class="tabs-content"
       = text_field_tag :subject, :value => 'PersonalProxy notification', id: 'subject', class: 'form-control'
     div class='form-group'
       label for="body" Body
-      = text_area_tag :body, id: 'body', class: 'form-control', value: "Hello, #{@account.email}! We want to inform you that your account has been successfully confirmed. Your proxy ip address and port are '' and #{@account.port}. Thank you for your attention. \n#{ENV['EMAIL_NAME']}", rows: '8'
+      = text_area_tag :body, id: 'body', class: 'form-control', value: "Hello, #{@account.email}! We want to inform you that your account has been successfully confirmed. Your personal port is #{@account.port}. Thank you for your attention. \n#{ENV['EMAIL_NAME']}", rows: '8'
 
     = submit_tag "Отправить", :class =>'btn btn-default'
