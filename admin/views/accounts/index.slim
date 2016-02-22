@@ -51,9 +51,9 @@ div class="tabs-content"
             - else
               = account.queue
           td class='list-column'
-            - if account.queue == nil
+            - if account.port == nil
               strong undefined
-            - elsif account.queue == ''
+            - elsif account.port == ''
               strong empty
             - else
               = account.port
