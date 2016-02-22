@@ -1,7 +1,6 @@
 div class="tabs-content"
   = form_tag '/admin/accounts/message', :method => :post, :class=>'login' do
 
-    = hidden_field_tag :from, :value => ENV['EMAIL_NAME'], id: 'from', class: 'form-control'
     div class='form-group'
       label for="to" To
       = text_field_tag :to, :value => @account.email, id: 'to', class: 'form-control'
@@ -10,6 +9,6 @@ div class="tabs-content"
       = text_field_tag :subject, :value => 'PersonalProxy notification', id: 'subject', class: 'form-control'
     div class='form-group'
       label for="body" Body
-      = text_area_tag :body, id: 'body', class: 'form-control', value: "Hello, #{@account.email}! We want to inform you that your account has been successfully confirmed. Your personal port is #{@account.port}. Thank you for your attention. \n#{ENV['EMAIL_NAME']}", rows: '8'
+      = text_area_tag :body, id: 'body', class: 'form-control', value: "Hello, #{@account.email}! We want to inform you that your account has been successfully confirmed. Your personal port is #{@account.port}. Thank you for your attention.", rows: '8'
 
     = submit_tag "Отправить", :class =>'btn btn-default'
