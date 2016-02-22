@@ -6,7 +6,7 @@ html lang='en'
     <![endif]-->
     meta content='text/html; charset=utf-8' http-equiv='Content-Type'
     meta name='viewport' content='width=device-width,initial-scale=1'
-    title = @title.present? ? "#{@title}" : "Personal proxy"
+    title = @title.present? ? "#{@title}" : "BProxy"
     = favicon_tag 'favicon.ico'
     link href='http://fonts.googleapis.com/css?family=Varela' rel='stylesheet'
     = stylesheet_link_tag 'bootstrap', 'application'
@@ -16,7 +16,7 @@ html lang='en'
       div class='navbar-inner'
         div class='container'
 
-          = link_to 'Proxy', '/', :class => 'navbar-brand', :title => 'Personal proxy'
+          = link_to 'BProxy', '/', :class => 'navbar-brand', :title => 'BProxy'
 
           ul class='nav navbar-nav pull-left'
             - if current_account

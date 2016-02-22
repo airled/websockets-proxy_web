@@ -35,7 +35,7 @@ div class="tabs-content"
         th class='header list-row-action-header'
 
     tbody
-      -@accounts.each do |account|
+      - @accounts.each do |account|
         tr class='list-row'
           td class='list-column list-selectable' = check_box_tag 'account_ids[]', :value => account.id, :class => 'list-selectable-checkbox'
           td class='list-column' = account.id
@@ -47,14 +47,14 @@ div class="tabs-content"
             - if account.queue == nil
               strong undefined
             - elsif account.queue == ''
-              strong empty
+              strong style="color: red;" empty
             - else
               = account.queue
           td class='list-column'
             - if account.port == nil
               strong undefined
             - elsif account.port == ''
-              strong empty
+              strong style="color: red;" empty
             - else
               = account.port
           td class='list-column list-row-action'

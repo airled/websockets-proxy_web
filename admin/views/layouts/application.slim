@@ -7,7 +7,7 @@ html lang='en'
     <![endif]-->
     meta content='text/html; charset=utf-8' http-equiv='Content-Type'
     meta name='viewport' content='width=device-width,initial-scale=1'
-    title = @title.present? ? "#{@title} | Padrino Admin" : "Padrino Admin"
+    title = @title.present? ? "#{@title} | BProxy Admin" : "BProxy Admin"
     = favicon_tag 'favicon.ico'
     link href='http://fonts.googleapis.com/css?family=Varela' rel='stylesheet'
     = stylesheet_link_tag 'bootstrap', 'application'
@@ -16,7 +16,7 @@ html lang='en'
     div class='navbar navbar-fixed-top'
       div class='navbar-inner'
         div class='container'
-          = link_to 'Padrino', url(:base, :index), :class => 'navbar-brand', :title => 'Padrino Admin'
+          = link_to 'BProxy admin', url(:base, :index), :class => 'navbar-brand', :title => 'BProxy Admin'
 
           ul class='nav navbar-nav pull-right'
             li class='navbar-edit-account' = link_to tag_icon(:user), url(:accounts, :edit, :id => current_account.id), :title => pat(:profile), :class => 'navbar-nav-link'
@@ -24,6 +24,7 @@ html lang='en'
               = content_tag :button, tag_icon(:'power-off'), :type => :submit, :title => pat(:logout), :class => 'navbar-nav-form-link'
 
           ul class='nav navbar-nav pull-left'
+            li class='navbar-module' = link_to 'App root', '/'
             - project_modules.each do |project_module|
               li class=("navbar-module #{'active' if request.path_info =~ /^#{project_module.path}/}")
                 = link_to project_module.human_name, url(project_module.path)

@@ -6,7 +6,7 @@ div class="tabs-content"
       = text_field_tag :to, :value => @account.email, id: 'to', class: 'form-control'
     div class='form-group'
       label for="subject" Subject
-      = text_field_tag :subject, :value => 'PersonalProxy notification', id: 'subject', class: 'form-control'
+      = text_field_tag :subject, :value => 'BProxy notification', id: 'subject', class: 'form-control'
     div class='form-group'
       label for="body" Body
       = text_area_tag :body, id: 'body', class: 'form-control', value: "Hello, #{@account.email}! We want to inform you that your account has been successfully confirmed. Your personal port is #{@account.port}. Thank you for your attention.", rows: '8'
