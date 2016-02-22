@@ -24,7 +24,8 @@ fieldset class='control-group#{error ? ' has-error' : ''}'
     span class='help-inline' = error ? f.error_message_on(:role, :class => 'text-error') : pat(:example)
 - error = @account.errors.key?(:queue) && @account.errors[:queue].count > 0
 fieldset class='control-group#{error ? ' has-error' : ''}'
-  = f.label :queue, :class => 'control-label'
+  = f.label :queue, :class => 'control-label', :onclick => 'generateQueueName();'
+    | (for queue name generating press on this lable)
   div class='controls'
     = f.text_field :queue, :class => 'form-control input-large input-with-feedback'
     span class='help-inline' = error ? f.error_message_on(:queue, :class => 'text-error') : pat(:example)
@@ -41,3 +42,11 @@ div class="form-actions"
   = f.submit pat(:save_and_continue), :class => 'btn btn-info', :name => 'save_and_continue'
   |&nbsp;
   = link_to pat(:cancel), url(:accounts, :index), :class => 'btn btn-default'
+
+javascript:
+  function generateQueueName() {
+    var arr = new Uint8Array(10);
+    window.crypto.getRandomValues(arr);
+    var name = [].map.call(arr, function(n) { return n.toString(16); }).join("");
+    document.getElementById('account_queue').value = name;
+  }
