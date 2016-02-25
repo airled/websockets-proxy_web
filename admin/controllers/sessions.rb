@@ -1,6 +1,6 @@
 WebsocketsProxyWeb::Admin.controllers :sessions do
   get :new do
-    render "/sessions/new", nil, :layout => false
+    render "/sessions/new"#, nil, :layout => false
   end
 
   post :create do

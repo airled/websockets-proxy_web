@@ -19,9 +19,10 @@ html lang='en'
           = link_to 'BProxy admin', url(:base, :index), :class => 'navbar-brand', :title => 'BProxy Admin'
 
           ul class='nav navbar-nav pull-right'
-            li class='navbar-edit-account' = link_to current_account.email, url(:accounts, :edit, :id => current_account.id), :title => pat(:profile), :class => 'navbar-nav-link'
-            li class='navbar-logout' = button_to(pat(:logout), url(:sessions, :destroy), :method => :delete, :class => 'navbar-nav-form') do
-              = content_tag :button, tag_icon(:'power-off'), :type => :submit, :title => pat(:logout), :class => 'navbar-nav-form-link'
+            - if current_account
+              li class='navbar-edit-account' = link_to current_account.email, url(:accounts, :edit, :id => current_account.id), :title => pat(:profile), :class => 'navbar-nav-link'
+              li class='navbar-logout' = button_to(pat(:logout), url(:sessions, :destroy), :method => :delete, :class => 'navbar-nav-form') do
+                = content_tag :button, tag_icon(:'power-off'), :type => :submit, :title => pat(:logout), :class => 'navbar-nav-form-link'
 
           ul class='nav navbar-nav pull-left'
             li class='navbar-module' = link_to 'App root', '/'

@@ -8,7 +8,7 @@ WebsocketsProxyWeb::App.controllers :welcome do
     if current_account
       render 'profile'
     else
-      redirect 'sessions/new'
+      redirect '/sessions/new'
     end
   end
 
@@ -32,7 +32,6 @@ WebsocketsProxyWeb::App.controllers :welcome do
       render 'pending'
     else
       account.errors.full_messages.each { |m| p "   - #{m}" }
-      "not ok"
     end
   
   end
