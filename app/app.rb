@@ -6,6 +6,15 @@ module WebsocketsProxyWeb
 
     enable :sessions
 
+    set :delivery_method, :smtp => {
+      :address              => "smtp.gmail.com",
+      :port                 => 587,
+      :user_name            => ENV['EMAIL_NAME'],
+      :password             => ENV['EMAIL_PASS'],
+      :authentication       => :plain,
+      :enable_starttls_auto => true
+    }
+
     ##
     # Caching support.
     #

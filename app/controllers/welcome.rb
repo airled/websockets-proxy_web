@@ -28,6 +28,12 @@ WebsocketsProxyWeb::App.controllers :welcome do
     account = Account.new(:email => params[:email], :password => params[:password], :password_confirmation => params[:password], :role => "user", :confirmed => false, :queue => nil, :port => nil)
     if account.valid?
       account.save
+      email(
+        from: ENV['EMAIL_NAME'],
+        to: ENV['EMAIL_NAME'],
+        subject: 'New user registered',
+        body: "User #{account.email} has been registered.\nhttp://bproxy.muzenza.by/admin/accounts/edit/#{account.id}"
+      ) if Padrino.env == :production
       set_current_account(nil) if current_account
       render 'pending'
     else
