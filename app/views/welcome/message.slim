@@ -1,0 +1,9 @@
+div class="tabs-content"
+  = form_tag "/message", :method => :post, :class=>'login' do
+
+    = hidden_field_tag :user_id, value: current_account.id
+    div class='form-group'
+      label for="body" Ваше сообщение
+      = text_area_tag :body, id: 'body', class: 'form-control', rows: '8'
+
+    = submit_tag "Отправить", :class =>'btn btn-default'

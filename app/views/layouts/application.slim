@@ -18,6 +18,9 @@ html lang='en'
 
           = link_to 'BProxy', '/', :class => 'navbar-brand', :title => 'BProxy'
 
+          ul class='nav navbar-nav pull-left'
+            li class='navbar-module' 
+              = link_to 'Документация', '/docs', :class => 'navbar-nav-link'
           ul class='nav navbar-nav pull-right'
             - if current_account
               li class='navbar-edit-account' 

@@ -4,6 +4,10 @@ WebsocketsProxyWeb::App.controllers :welcome do
     render 'index'
   end
 
+  get :docs, :map => '/docs' do
+    render 'docs'
+  end
+
   get :profile, :map => '/profile' do
     if current_account
       render 'profile'
@@ -22,6 +26,25 @@ WebsocketsProxyWeb::App.controllers :welcome do
 
   get :create_user, :map => '/create_user' do
     render 'create_user'
+  end
+
+  get :message, :map => '/message' do
+    if current_account
+      render 'message'
+    else
+      redirect '/sessions/new'
+    end
+  end
+
+  post :message, :map => '/message' do
+    account = Account[id: params[:user_id]]
+    email(
+      from: ENV['EMAIL_NAME'],
+      to: ENV['EMAIL_NAME'],
+      subject: "User's message",
+      body: "User #{account.email} says:\n#{params[:body]}"
+    )
+    redirect '/docs'
   end
 
   post :create_user, :map => '/create_user' do
