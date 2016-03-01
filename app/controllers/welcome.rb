@@ -24,10 +24,6 @@ WebsocketsProxyWeb::App.controllers :welcome do
     render 'pending'
   end
 
-  get :create_user, :map => '/create_user' do
-    render 'create_user'
-  end
-
   get :message, :map => '/message' do
     if current_account
       render 'message'
@@ -44,11 +40,16 @@ WebsocketsProxyWeb::App.controllers :welcome do
       subject: "User's message",
       body: "User #{account.email} says:\n#{params[:body]}"
     )
+    flash[:success] = 'Ваше сообщение отправлено'
     redirect '/docs'
   end
 
+  get :create_user, :map => '/create_user' do
+    render 'create_user'
+  end
+
   post :create_user, :map => '/create_user' do
-    account = Account.new(:email => params[:email], :password => params[:password], :password_confirmation => params[:password], :role => "user", :confirmed => false, :queue => nil, :port => nil)
+    account = Account.new(:email => params[:email], :password => params[:password], :password_confirmation => params[:password_confirmation], :role => "user", :confirmed => false, :queue => nil, :port => nil)
     if account.valid?
       account.save
       email(
@@ -58,9 +59,11 @@ WebsocketsProxyWeb::App.controllers :welcome do
         body: "User #{account.email} has been registered.\nhttp://bproxy.muzenza.by/admin/accounts/edit/#{account.id}"
       ) if Padrino.env == :production
       set_current_account(nil) if current_account
-      render 'pending'
+      flash[:success] = 'Ваш аккаунт успешно создан'
+      redirect '/pending'
     else
-      account.errors.full_messages.each { |m| p "   - #{m}" }
+      flash[:error] = account.errors.full_messages.each { |m| p "   - #{m}" }.join("\n")
+      redirect '/create_user'
     end
   
   end

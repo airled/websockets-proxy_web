@@ -14,7 +14,7 @@ WebsocketsProxyWeb::Admin.controllers :sessions do
     else
       params[:email] = h(params[:email])
       flash.now[:error] = pat('login.error')
-      render "/sessions/new", nil, :layout => false
+      render "/sessions/new"#, nil, :layout => false
     end
   end
 
