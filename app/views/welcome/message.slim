@@ -7,3 +7,6 @@ div class="tabs-content"
       = text_area_tag :body, id: 'body', class: 'form-control', rows: '8'
 
     = submit_tag "Отправить", :class =>'btn btn-default'
+    |&nbsp;
+    = link_to 'Отмена', url(:welcome, :docs), :class => 'btn btn-default'
+

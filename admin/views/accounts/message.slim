@@ -9,6 +9,9 @@ div class="tabs-content"
       = text_field_tag :subject, :value => 'BProxy notification', id: 'subject', class: 'form-control'
     div class='form-group'
       label for="body" Body
-      = text_area_tag :body, id: 'body', class: 'form-control', value: "Hello, #{@account.email}! We want to inform you that your account has been successfully confirmed. Your personal port is #{@account.port}. Thank you for your attention.", rows: '8'
+      = text_area_tag :body, id: 'body', class: 'form-control', value: "Hello, #{@account.email}! We want to inform you that your account has been successfully confirmed. Your proxy parameters are:\nIP : 51.254.10.211\nPort : #{@account.port}\nThank you for your attention.", rows: '8'
 
-    = submit_tag "Отправить", :class =>'btn btn-default'
+    = submit_tag "Send", :class =>'btn btn-default'
+    |&nbsp;
+    = link_to pat(:cancel), url(:accounts, :index), :class => 'btn btn-default'
+

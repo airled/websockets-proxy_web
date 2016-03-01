@@ -56,7 +56,7 @@ WebsocketsProxyWeb::App.controllers :welcome do
         from: ENV['EMAIL_NAME'],
         to: ENV['EMAIL_NAME'],
         subject: 'New user registered',
-        body: "User #{account.email} has been registered.\nhttp://bproxy.muzenza.by/admin/accounts/edit/#{account.id}"
+        body: "User #{account.email} has been registered.\nhttp://bproxy.muzenza.by/admin/accounts/confirm/#{account.id}"
       ) if Padrino.env == :production
       set_current_account(nil) if current_account
       flash[:success] = 'Ваш аккаунт успешно создан'

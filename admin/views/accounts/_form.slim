@@ -22,19 +22,6 @@ fieldset class='control-group#{error ? ' has-error' : ''}'
   div class='controls'
     = f.text_field :role, :class => 'form-control input-large input-with-feedback'
     span class='help-inline' = error ? f.error_message_on(:role, :class => 'text-error') : pat(:example)
-- error = @account.errors.key?(:queue) && @account.errors[:queue].count > 0
-fieldset class='control-group#{error ? ' has-error' : ''}'
-  = f.label :queue, :class => 'control-label', :onclick => 'generateQueueName();'
-    | (for queue name generating press on this lable)
-  div class='controls'
-    = f.text_field :queue, :class => 'form-control input-large input-with-feedback'
-    span class='help-inline' = error ? f.error_message_on(:queue, :class => 'text-error') : pat(:example)
-- error = @account.errors.key?(:port) && @account.errors[:port].count > 0
-fieldset class='control-group#{error ? ' has-error' : ''}'
-  = f.label :port, :class => 'control-label'
-  div class='controls'
-    = f.text_field :port, :class => 'form-control input-large input-with-feedback'
-    span class='help-inline' = error ? f.error_message_on(:port, :class => 'text-error') : pat(:example)
 
 div class="form-actions"
   = f.submit pat(:save), :class => 'btn btn-primary'
