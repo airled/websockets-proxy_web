@@ -57,6 +57,25 @@ WebsocketsProxyWeb::Admin.controllers :accounts do
     end
   end
 
+  get :confirm, :with => :id do
+    @account = Account[params[:id]]
+    render 'accounts/confirm'
+  end
+
+  put :confirm, :with => :id do
+    @account = Account[params[:id]]
+    queue = params[:account][:queue]
+    port = params[:account][:port]
+    if queue.empty? || port.empty?
+      flash[:error] = "Account #{@account.email} has not been confirmed. Queue or port could not be empty"
+      redirect back
+    else
+      @account.update(queue: queue, port: port, confirmed: true)
+      flash[:success] = "Account #{@account.email} has been confirmed"
+      redirect url(:accounts, :index)
+    end
+  end
+
   delete :destroy, :with => :id do
     @title = "Accounts"
     account = Account[params[:id]]

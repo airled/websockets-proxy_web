@@ -1,0 +1,36 @@
+ul class="nav nav-tabs"
+  li = link_to tag_icon(:list, pat(:list)), url(:accounts, :index)
+  li = link_to tag_icon(:plus, pat(:new)), url(:accounts, :new)
+  li = link_to tag_icon(:edit, pat(:edit)), url(:accounts, :edit, :id => @account.id)
+  li class="active" = link_to tag_icon(:edit, 'Confirm'), url(:accounts, :confirm, :id => @account.id)
+
+div class="tabs-content"
+  = form_for :account, url(:accounts, :confirm, :id => @account.id), :method => :put, :class => 'form-horizontal' do |f|
+    - error = @account.errors.key?(:queue) && @account.errors[:queue].count > 0
+    fieldset class='control-group#{error ? ' has-error' : ''}'
+      = f.label :queue, :class => 'control-label', :onclick => 'generateQueueName();'
+        | (for queue name generating press on this lable)
+      div class='controls'
+        = f.text_field :queue, :class => 'form-control input-large input-with-feedback'
+        span class='help-inline' = error ? f.error_message_on(:queue, :class => 'text-error') : pat(:example)
+    - error = @account.errors.key?(:port) && @account.errors[:port].count > 0
+    fieldset class='control-group#{error ? ' has-error' : ''}'
+      = f.label :port, :class => 'control-label'
+      div class='controls'
+        = f.text_field :port, :class => 'form-control input-large input-with-feedback'
+        span class='help-inline' = error ? f.error_message_on(:port, :class => 'text-error') : pat(:example)
+
+    div class="form-actions"
+      = f.submit pat(:save), :class => 'btn btn-primary'
+      |&nbsp;
+      = f.submit pat(:save_and_continue), :class => 'btn btn-info', :name => 'save_and_continue'
+      |&nbsp;
+      = link_to pat(:cancel), url(:accounts, :index), :class => 'btn btn-default'
+
+    javascript:
+      function generateQueueName() {
+        var arr = new Uint8Array(10);
+        window.crypto.getRandomValues(arr);
+        var name = [].map.call(arr, function(n) { return n.toString(16); }).join("");
+        document.getElementById('account_queue').value = name;
+      }
