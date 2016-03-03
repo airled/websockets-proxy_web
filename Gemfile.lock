@@ -9,6 +9,7 @@ GEM
       tzinfo (~> 1.1)
     bcrypt (3.1.10)
     daemons (1.2.3)
+    diff-lcs (1.2.5)
     enumerable-lazy (0.0.1)
     eventmachine (1.0.9.1)
     i18n (0.7.0)
@@ -62,7 +63,22 @@ GEM
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
+    rack-test (0.6.3)
+      rack (>= 1.0)
     rake (10.5.0)
+    rspec (3.4.0)
+      rspec-core (~> 3.4.0)
+      rspec-expectations (~> 3.4.0)
+      rspec-mocks (~> 3.4.0)
+    rspec-core (3.4.3)
+      rspec-support (~> 3.4.0)
+    rspec-expectations (3.4.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.4.0)
+    rspec-mocks (3.4.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.4.0)
+    rspec-support (3.4.1)
     sequel (4.31.0)
     sinatra (1.4.7)
       rack (~> 1.5)
@@ -90,7 +106,9 @@ DEPENDENCIES
   mina
   mysql2
   padrino (= 0.13.1)
+  rack-test
   rake
+  rspec
   sequel
   slim
   thin
