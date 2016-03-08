@@ -8,6 +8,10 @@ WebsocketsProxyWeb::App.controllers :welcome do
     render 'docs'
   end
 
+  get :contacts, :map => '/contacts' do
+    render 'contacts'
+  end
+
   get :profile, :map => '/profile' do
     if current_account
       render 'profile'
