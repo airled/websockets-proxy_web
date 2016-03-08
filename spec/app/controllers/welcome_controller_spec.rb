@@ -25,6 +25,9 @@ RSpec.describe "Welcome Controller" do
     expect(last_response.status).to eq(302)
   end
 
+  it "should allow accessing '/profile' if user is signed in" do
+  end
+
   it "should allow accessing '/plugin'" do
     get '/plugin'
     expect(last_response).to be_ok

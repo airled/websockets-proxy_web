@@ -39,15 +39,18 @@ WebsocketsProxyWeb::App.controllers :welcome do
   end
 
   post :message, :map => '/message' do
-    account = Account[id: params[:user_id]]
-    email(
-      from: ENV['EMAIL_NAME'],
-      to: ENV['EMAIL_NAME'],
-      subject: "User's message",
-      body: "User #{account.email} says:\n#{params[:body]}"
-    )
-    flash[:success] = 'Ваше сообщение отправлено'
-    redirect '/docs'
+    if current_account
+      email(
+        from: ENV['EMAIL_NAME'],
+        to: ENV['EMAIL_NAME'],
+        subject: "User's message",
+        body: "User #{current_account.email} says:\n#{params[:body]}"
+      )
+      flash[:success] = 'Ваше сообщение отправлено'
+      redirect '/'
+    else
+      status 403
+    end
   end
 
   get :create_user, :map => '/create_user' do
