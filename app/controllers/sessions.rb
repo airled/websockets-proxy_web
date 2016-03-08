@@ -1,5 +1,6 @@
 WebsocketsProxyWeb::App.controllers :sessions do
   get :new do
+    @redirect = params[:redirect]
     render "/sessions/new"
   end
 
@@ -8,14 +9,18 @@ WebsocketsProxyWeb::App.controllers :sessions do
       if account.confirmed?
         set_current_account(account)
         flash[:success] = "Вы успешно зашли как #{account.email}"
-        redirect '/profile'
+        if params[:redirect].nil?
+          redirect url(:welcome, :profile)
+        else
+          redirect "/#{params[:redirect]}"
+        end
       else
-        redirect '/pending'
+        redirect url(:welcome, :pending)
       end
     else
       params[:email] = h(params[:email])
       flash[:error] = 'Неправильный email или пароль'
-      redirect "/sessions/new"
+      redirect url(:sessions, :new)
     end
   end
 

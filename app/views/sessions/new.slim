@@ -1,5 +1,7 @@
 = form_tag '/sessions/create', :class=>'login form-horizontal' do
 
+  = hidden_field_tag :redirect, value: @redirect if @redirect
+
   div class="login-body modal-body"
 
     h2 Вход

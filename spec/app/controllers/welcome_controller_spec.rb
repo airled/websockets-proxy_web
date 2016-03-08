@@ -14,6 +14,12 @@ RSpec.describe "Welcome Controller" do
     expect(last_response.body).to include('Документация')
   end
 
+  it "should allow accessing '/contacts'" do
+    get '/contacts'
+    expect(last_response).to be_ok
+    expect(last_response.body).to include('Контакты')
+  end
+
   it "should not allow accessing '/profile' if user is not signed in" do
     get '/profile'
     expect(last_response.status).to eq(302)

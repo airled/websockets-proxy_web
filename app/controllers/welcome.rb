@@ -16,8 +16,8 @@ WebsocketsProxyWeb::App.controllers :welcome do
     if current_account
       render 'profile'
     else
-      flash.now[:warning] = 'Авторизируйтесь, чтобы войти в профиль'
-      render 'sessions/new'
+      flash[:warning] = 'Авторизируйтесь, чтобы войти в профиль'
+      redirect '/sessions/new?redirect=profile'
     end
   end
 
@@ -33,8 +33,8 @@ WebsocketsProxyWeb::App.controllers :welcome do
     if current_account
       render 'message'
     else
-      flash.now[:warning] = 'Авторизируйтесь, чтобы отправить сообщение'
-      render 'sessions/new'
+      flash[:warning] = 'Авторизируйтесь, чтобы отправить сообщение'
+      redirect '/sessions/new?redirect=message'
     end
   end
 
