@@ -6,6 +6,7 @@ environment: production
 max_persistent_conns: 512
 # servers: 1
 # threaded: true
+address: 127.0.0.1
 port: 3100
 daemonize: true
 # socket: tmp/sockets/thin.sock
