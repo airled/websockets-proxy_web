@@ -50,10 +50,10 @@ end
 
 desc "Starts the application remotely."
 task :start => :environment do
-  queue "source ~/.zshrc && cd current && RACK_ENV=production bundle exec padrino s -p 3100 -d"
+  queue "source ~/.zshrc && cd current && bundle exec thin -C config/thin.yml -R config.ru start"
 end
 
 desc "Stops the application remotely."
 task :stop => :environment do
-  queue "cd current && bundle exec padrino stop"
+  queue "cd current && bundle exec thin stop"
 end
