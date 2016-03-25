@@ -1,5 +1,7 @@
 class Account < Sequel::Model
 
+  one_to_many :profiles
+
   plugin :validation_helpers
 
   attr_accessor :password, :password_confirmation
