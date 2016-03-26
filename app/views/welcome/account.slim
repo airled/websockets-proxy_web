@@ -1,0 +1,49 @@
+h1 Аккаунт
+
+div
+  | Ваш порт: #{current_account.port}
+div
+  | Скачать плагин 
+  = link_to 'можно здесь', '/plugin'
+
+h3 Профили
+table class="table table-stripped table-condensed" id="list"
+  tbody
+    - @profiles.each do |profile|
+      - if profile.name == 'default'
+        tr class='list-row'
+          td class='list-column' = profile.name
+          td class='list-column'
+          td class='list-column'
+      - else
+        tr class='list-row'
+          td class='list-column' = profile.name
+          td class='list-column'
+            = form_tag url(:welcome, :rename_profile), method: :patch, class: 'form-inline' do
+              
+              .btn.btn-default.rename_button Переименовать
+              .form-group.rename_form style="visibility: hidden;"
+                = hidden_field_tag :profile_id, value: profile.id
+                = text_field_tag :name, class: 'form-control', placeholder: 'Новое имя'
+                = submit_tag 'Сохранить', class: 'btn btn-warning'
+          td class='list-column'
+            = form_tag url(:welcome, :remove_profile), method: :delete
+              = hidden_field_tag :profile_id, value: profile.id
+              = submit_tag('Удалить', class: 'btn btn-danger')
+
+= form_tag '/create_profile', method: :post, class: 'form-inline' do
+
+  .form-group
+    = text_field_tag :name, class: 'form-control', placeholder: 'Имя профиля'
+  = submit_tag "Создать", class: 'btn btn-default'
+
+javascript:
+  let rename_buttons = document.getElementsByClassName("rename_button");
+  let rename_forms = document.getElementsByClassName("rename_form");
+  for (let i = 0; i < rename_buttons.length; i++) {
+    rename_buttons[i].addEventListener('click', toggle_renaming, false);
+  }
+  function toggle_renaming() {
+    this.style.visibility = 'hidden';
+    this.nextSibling.style.visibility = 'visible';
+  }

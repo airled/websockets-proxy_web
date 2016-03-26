@@ -7,7 +7,6 @@ Sequel.migration do
       String :role
       Boolean :confirmed, default: false
       Boolean :active, default: false
-      String :queue, unique: true, default: nil
       Integer :port, unique: true, default: nil
     end
   end

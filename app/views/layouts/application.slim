@@ -24,7 +24,7 @@ html lang="en"
           li = link_to 'Сообщение', "/message"
           li = link_to 'Контакты', "/contacts"
           - if current_account
-            li = link_to 'Профиль', "/profile"
+            li = link_to current_account.email, "/account"
             li
               = form_tag url(:sessions, :destroy), :method => :delete
                 = submit_tag('Выйти', :class => 'btn btn-defalt')

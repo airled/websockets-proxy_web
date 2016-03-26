@@ -3,10 +3,11 @@ password  = shell.ask "Tell me the password to use:", :echo => false
 
 shell.say ""
 
-account = Account.new(:email => email, :password => password, :password_confirmation => password, :role => "admin", :confirmed => true, :queue => nil, :port => nil)
+account = Account.new(:email => email, :password => password, :password_confirmation => password, :role => "admin", :confirmed => false, :port => nil)
 
 if account.valid?
   account.save
+  account.add_default_profile
   shell.say "================================================================="
   shell.say "Account has been successfully created, now you can login with:"
   shell.say "================================================================="

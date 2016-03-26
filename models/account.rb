@@ -47,6 +47,25 @@ class Account < Sequel::Model
     self.confirmed == true
   end
 
+  def admin?
+    self.role == 'admin'
+  end
+
+  def add_default_profile
+    require 'securerandom'
+    loop do
+      queue = SecureRandom.hex
+      if Profile[queue: queue].nil?
+        self.add_profile(name: 'default', queue: queue) 
+        break
+      end
+    end
+  end
+
+  def destroy_all_profiles
+    self.profiles.each { |profile| profile.destroy }
+  end
+
   private
 
   def encrypt_password

@@ -10,7 +10,7 @@ WebsocketsProxyWeb::App.controllers :sessions do
         set_current_account(account)
         flash[:success] = "Вы успешно зашли как #{account.email}"
         if params[:redirect].nil?
-          redirect url(:welcome, :profile)
+          redirect url(:welcome, :account)
         else
           redirect "/#{params[:redirect]}"
         end

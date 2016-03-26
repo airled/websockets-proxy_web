@@ -1,0 +1,52 @@
+ul class="nav nav-tabs"
+  li = link_to tag_icon(:list, pat(:list)), url(:accounts, :index)
+  li = link_to tag_icon(:plus, pat(:new)), url(:accounts, :new)
+  li = link_to tag_icon(:edit, pat(:edit)), url(:accounts, :edit, :id => @account.id)
+  li = link_to tag_icon(:unlock, 'Confirm'), url(:accounts, :confirm, :id => @account.id)
+  li class="active" = link_to tag_icon(:bolt, 'Profiles'), url(:accounts, :profiles, :id => @account.id)
+
+div class="tabs-content"
+  table class="table table-stripped table-condensed" id="list"
+    tbody
+      - @profiles.each do |profile|
+        - if profile.name == 'default'
+          tr class='list-row'
+            td class='list-column' = profile.name
+            td class='list-column'
+            td class='list-column'
+        - else
+          tr class='list-row'
+
+            td class='list-column' = profile.name
+
+            td class='list-column'
+              = form_tag url(:accounts, :rename_profile), method: :patch, class: 'form-inline' do
+                .btn.btn-default.rename_button Переименовать
+                .form-group.rename_form style="visibility: hidden;"
+                  = hidden_field_tag :profile_id, value: profile.id
+                  = hidden_field_tag :account_id, value: @account.id
+                  = text_field_tag :name, class: 'form-control', placeholder: 'Новое имя'
+                  = submit_tag 'Сохранить', class: 'btn btn-warning'
+
+            td class='list-column'
+              = form_tag url(:accounts, :remove_profile), method: :delete
+                = hidden_field_tag :profile_id, value: profile.id
+                = hidden_field_tag :account_id, value: @account.id
+                = submit_tag('Удалить', class: 'btn btn-danger')
+
+  = form_tag url(:accounts, :create_profile), method: :post, class: 'form-inline' do
+    .form-group
+      = hidden_field_tag :account_id, value: @account.id
+      = text_field_tag :name, class: 'form-control', placeholder: 'Имя профиля'
+    = submit_tag "Создать", class: 'btn btn-default'
+
+  javascript:
+    let rename_buttons = document.getElementsByClassName("rename_button");
+    let rename_forms = document.getElementsByClassName("rename_form");
+    for (let i = 0; i < rename_buttons.length; i++) {
+      rename_buttons[i].addEventListener('click', toggle_renaming, false);
+    }
+    function toggle_renaming() {
+      this.style.visibility = 'hidden';
+      this.nextSibling.style.visibility = 'visible';
+    }

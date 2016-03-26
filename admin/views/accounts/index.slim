@@ -28,9 +28,9 @@ div class="tabs-content"
         th class='header' = mat(:account, :id)
         th class='header' = mat(:account, :email)
         th class='header' = mat(:account, :role)
+        th class='header' = mat(:account, :profiles)
         th class='header' = mat(:account, :confirmed)
         th class='header' = mat(:account, :active)
-        th class='header' = mat(:account, :queue)
         th class='header' = mat(:account, :port)
         th class='header list-row-action-header'
 
@@ -41,15 +41,9 @@ div class="tabs-content"
           td class='list-column' = account.id
           td class='list-column' = account.email
           td class='list-column' = account.role
+          td class='list-column' = account.profiles.count
           td class='list-column' = account.confirmed
           td class='list-column' = account.active
-          td class='list-column'
-            - if account.queue == nil
-              strong undefined
-            - elsif account.queue == ''
-              strong style="color: red;" empty
-            - else
-              = account.queue
           td class='list-column'
             - if account.port == nil
               strong undefined
@@ -59,14 +53,15 @@ div class="tabs-content"
               = account.port
           td class='list-column list-row-action'
             div class='list-row-action-wrapper'
-              = link_to '@', :href => url(:accounts, :message, :id => account.id), :rel => :tooltip, :class => 'list-row-action-wrapper-link'
-              = link_to '#', :href => url(:accounts, :confirm, :id => account.id), :rel => :tooltip, :class => 'list-row-action-wrapper-link'
-              = link_to tag_icon(:edit), :href => url(:accounts, :edit, :id => account.id), :rel => :tooltip, :title => "#{pat(:edit)} account", :class => 'list-row-action-wrapper-link'
-              = link_to tag_icon('trash-o'), :rel => :tooltip, :title => "#{pat(:delete)} account", :class => 'list-row-action-delete-one list-row-action-wrapper-link'
+              = link_to tag_icon('envelope-o'), href: url(:accounts, :message, id: account.id), rel: :tooltip, title: 'Send message', class: 'list-row-action-wrapper-link'
+              = link_to tag_icon('unlock'), href: url(:accounts, :confirm, id: account.id), rel: :tooltip, title: 'Confirm', class: 'list-row-action-wrapper-link'
+              = link_to tag_icon('bolt'), href: url(:accounts, :profiles, id: account.id), rel: :tooltip, title: "Profiles", class: 'list-row-action-wrapper-link'
+              = link_to tag_icon(:edit), href: url(:accounts, :edit, id: account.id), rel: :tooltip, title: "#{pat(:edit)} account", class: 'list-row-action-wrapper-link'
+              = link_to tag_icon('trash-o'), rel: :tooltip, title: "#{pat(:delete)} account", class: 'list-row-action-delete-one list-row-action-wrapper-link'
               div class='popover list-row-action-popover-delete-one left'
                 div class='arrow'
                 h3 class='popover-title' = pat(:delete, :model => "account")
                 div class='popover-content'
-                  = form_tag url(:accounts, :destroy, :id => account.id), :method => :delete do
-                    = submit_tag pat(:delete), :class =>'list-row-action-popover-delete-one-btn btn btn-danger btn-small'
+                  = form_tag url(:accounts, :destroy, id: account.id), method: :delete do
+                    = submit_tag pat(:delete), class: 'list-row-action-popover-delete-one-btn btn btn-danger btn-small'
                     div class='btn btn-default btn-small cancel' = pat(:cancel)

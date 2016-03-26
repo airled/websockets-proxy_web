@@ -12,12 +12,13 @@ WebsocketsProxyWeb::App.controllers :welcome do
     render 'contacts'
   end
 
-  get :profile, :map => '/profile' do
+  get :account, :map => '/account' do
     if current_account
-      render 'profile'
+      @profiles = current_account.profiles
+      render 'account'
     else
       flash[:warning] = 'Авторизируйтесь, чтобы войти в профиль'
-      redirect '/sessions/new?redirect=profile'
+      redirect '/sessions/new?redirect=account'
     end
   end
 
@@ -41,12 +42,7 @@ WebsocketsProxyWeb::App.controllers :welcome do
 
   post :message, :map => '/message' do
     if current_account
-      email(
-        from: ENV['EMAIL_NAME'],
-        to: ENV['EMAIL_NAME'],
-        subject: "User's message",
-        body: "User #{current_account.email} says:\n#{params[:body]}"
-      )
+      send_email("User's message", "User #{current_account.email} says:\n#{params[:body]}")
       flash[:success] = 'Ваше сообщение отправлено'
       redirect '/'
     else
@@ -59,15 +55,11 @@ WebsocketsProxyWeb::App.controllers :welcome do
   end
 
   post :create_user, :map => '/create_user' do
-    account = Account.new(:email => params[:email], :password => params[:password], :password_confirmation => params[:password_confirmation], :role => "user", :confirmed => false, :queue => nil, :port => nil)
+    account = Account.new(email: params[:email], password: params[:password], password_confirmation: params[:password_confirmation], :role => "user", :confirmed => false, :port => nil)
     if account.valid?
       account.save
-      email(
-        from: ENV['EMAIL_NAME'],
-        to: ENV['EMAIL_NAME'],
-        subject: 'New user registered',
-        body: "User #{account.email} has been registered.\nhttp://bproxy.muzenza.by/admin/accounts/confirm/#{account.id}"
-      ) if Padrino.env == :production
+      account.add_default_profile
+      send_email('New user registered', "User #{account.email} has been registered.\nhttp://bproxy.muzenza.by/admin/accounts/confirm/#{account.id}")
       set_current_account(nil) if current_account
       flash[:success] = 'Ваш аккаунт успешно создан'
       redirect '/pending'
@@ -75,7 +67,28 @@ WebsocketsProxyWeb::App.controllers :welcome do
       flash[:error] = account.errors.full_messages.each { |m| p "   - #{m}" }.join("\n")
       redirect '/create_user'
     end
-  
+  end
+
+  post :create_profile, map: '/create_profile' do
+    if params[:name] == '' || params[:name].include?(' ')
+      flash[:error] = 'Неправильное имя профиля'
+    elsif !Profile.where(account_id: current_account.id, name: params[:name]).first.nil?
+      flash[:error] = 'Профиль с таким именем уже существует'
+    else
+      current_account.add_profile(name: params[:name], queue: generate_uniq_queue)
+      flash[:success] = 'Профиль создан'
+    end
+    redirect url(:welcome, :account)
+  end
+
+  delete :remove_profile, map: '/remove_profile' do
+    Profile[params[:profile_id]].destroy
+    redirect url(:welcome, :account)
+  end
+
+  patch :rename_profile, map: '/rename_profile' do
+    Profile[params[:profile_id]].update(name: params[:name])
+    redirect url(:welcome, :account)
   end
 
 end
