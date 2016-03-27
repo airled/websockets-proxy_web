@@ -43,10 +43,6 @@ class Account < Sequel::Model
     ::BCrypt::Password.new(self.crypted_password) == password
   end
 
-  def confirmed?
-    self.confirmed == true
-  end
-
   def admin?
     self.role == 'admin'
   end

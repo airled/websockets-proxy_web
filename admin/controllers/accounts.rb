@@ -84,7 +84,7 @@ WebsocketsProxyWeb::Admin.controllers :accounts do
       flash[:error] = "Account #{@account.email} has not been confirmed. Port could not be empty"
       redirect back
     else
-      @account.update(port: port, confirmed: true)
+      @account.update(port: port)
       flash[:success] = "Account #{@account.email} has been confirmed"
       params[:save_and_continue] ?
           redirect(url(:accounts, :index)) :

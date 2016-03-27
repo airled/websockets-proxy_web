@@ -6,7 +6,7 @@ WebsocketsProxyWeb::App.controllers :sessions do
 
   post :create do
     if account = Account.authenticate(params[:email], params[:password])
-      if account.confirmed?
+      if account.port
         set_current_account(account)
         flash[:success] = "Вы успешно зашли как #{account.email}"
         if params[:redirect].nil?

@@ -41,7 +41,6 @@ table class="table table-stripped table-condensed" id="list"
                 = submit_tag('Удалить', class: 'btn btn-danger')
 
 = form_tag '/create_profile', method: :post, class: 'form-inline' do
-
   .form-group
     = text_field_tag :name, class: 'form-control', placeholder: 'Имя профиля'
   = submit_tag "Создать", class: 'btn btn-default'

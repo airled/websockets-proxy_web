@@ -55,7 +55,7 @@ WebsocketsProxyWeb::App.controllers :welcome do
   end
 
   post :create_user, :map => '/create_user' do
-    account = Account.new(email: params[:email], password: params[:password], password_confirmation: params[:password_confirmation], :role => "user", :confirmed => false, :port => nil)
+    account = Account.new(email: params[:email], password: params[:password], password_confirmation: params[:password_confirmation], :role => "user", :port => nil)
     if account.valid?
       account.save
       account.add_default_profile

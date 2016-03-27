@@ -12,27 +12,34 @@ div class="tabs-content"
         - if profile.name == 'default'
           tr class='list-row'
             td class='list-column' = profile.name
+            td class='list-column' 
+              - if profile.active?
+                  strong Активен 
             td class='list-column'
             td class='list-column'
         - else
           tr class='list-row'
-
             td class='list-column' = profile.name
-
-            td class='list-column'
-              = form_tag url(:accounts, :rename_profile), method: :patch, class: 'form-inline' do
-                .btn.btn-default.rename_button Переименовать
-                .form-group.rename_form style="visibility: hidden;"
+            - if profile.active?
+              td class='list-column'
+                strong Активен 
+              td class='list-column'
+              td class='list-column'
+            - else
+              td class='list-column'
+              td class='list-column'
+                = form_tag url(:accounts, :rename_profile), method: :patch, class: 'form-inline' do
+                  .btn.btn-default.rename_button Переименовать
+                  .form-group.rename_form style="visibility: hidden;"
+                    = hidden_field_tag :profile_id, value: profile.id
+                    = hidden_field_tag :account_id, value: @account.id
+                    = text_field_tag :name, class: 'form-control', placeholder: 'Новое имя'
+                    = submit_tag 'Сохранить', class: 'btn btn-warning'
+              td class='list-column'
+                = form_tag url(:accounts, :remove_profile), method: :delete
                   = hidden_field_tag :profile_id, value: profile.id
                   = hidden_field_tag :account_id, value: @account.id
-                  = text_field_tag :name, class: 'form-control', placeholder: 'Новое имя'
-                  = submit_tag 'Сохранить', class: 'btn btn-warning'
-
-            td class='list-column'
-              = form_tag url(:accounts, :remove_profile), method: :delete
-                = hidden_field_tag :profile_id, value: profile.id
-                = hidden_field_tag :account_id, value: @account.id
-                = submit_tag('Удалить', class: 'btn btn-danger')
+                  = submit_tag('Удалить', class: 'btn btn-danger')
 
   = form_tag url(:accounts, :create_profile), method: :post, class: 'form-inline' do
     .form-group
