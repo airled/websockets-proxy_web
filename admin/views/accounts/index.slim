@@ -43,7 +43,11 @@ div class="tabs-content"
           td class='list-column' = account.role
           td class='list-column' = account.profiles.count
           td class='list-column' = account.confirmed
-          td class='list-column' = account.active
+          td class='list-column'
+            - if Profile[account_id: account.id, active: true].nil?
+              | No
+            - else 
+              strong yes
           td class='list-column'
             - if account.port == nil
               strong undefined

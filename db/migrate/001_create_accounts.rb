@@ -6,7 +6,6 @@ Sequel.migration do
       String :crypted_password
       String :role
       Boolean :confirmed, default: false
-      Boolean :active, default: false
       Integer :port, unique: true, default: nil
     end
   end

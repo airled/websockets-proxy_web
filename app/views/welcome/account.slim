@@ -13,14 +13,23 @@ table class="table table-stripped table-condensed" id="list"
       - if profile.name == 'default'
         tr class='list-row'
           td class='list-column' = profile.name
+          - if profile.active?
+            td class='list-column' 
+              strong Активен 
+          - else
+            td class='list-column'
           td class='list-column'
           td class='list-column'
       - else
         tr class='list-row'
           td class='list-column' = profile.name
+          - if profile.active?
+            td class='list-column'
+              strong Активен 
+          - else
+            td class='list-column'
           td class='list-column'
             = form_tag url(:welcome, :rename_profile), method: :patch, class: 'form-inline' do
-              
               .btn.btn-default.rename_button Переименовать
               .form-group.rename_form style="visibility: hidden;"
                 = hidden_field_tag :profile_id, value: profile.id
