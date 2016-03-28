@@ -1,7 +1,7 @@
 WebsocketsProxyWeb::App.controllers :sessions do
   get :new do
     @redirect = params[:redirect]
-    render "/sessions/new"
+    render '/sessions/new'
   end
 
   post :create do

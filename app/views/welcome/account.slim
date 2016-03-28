@@ -32,26 +32,35 @@ table class="table table-stripped table-condensed" id="list"
               = form_tag url(:welcome, :rename_profile), method: :patch, class: 'form-inline' do
                 .btn.btn-default.rename_button Переименовать
                 .form-group.rename_form style="visibility: hidden;"
-                  = hidden_field_tag :profile_id, value: profile.id
+                  = hidden_field_tag :profile_name, value: profile.name
                   = text_field_tag :name, class: 'form-control', placeholder: 'Новое имя'
+                  |&nbsp;
                   = submit_tag 'Сохранить', class: 'btn btn-warning'
+                  |&nbsp;
+                  .btn.btn-warning.cancel_button Отменить
             td class='list-column'
               = form_tag url(:welcome, :remove_profile), method: :delete
-                = hidden_field_tag :profile_id, value: profile.id
+                = hidden_field_tag :profile_name, value: profile.name
                 = submit_tag('Удалить', class: 'btn btn-danger')
 
 = form_tag '/create_profile', method: :post, class: 'form-inline' do
   .form-group
     = text_field_tag :name, class: 'form-control', placeholder: 'Имя профиля'
+  |&nbsp;
   = submit_tag "Создать", class: 'btn btn-default'
 
 javascript:
   let rename_buttons = document.getElementsByClassName("rename_button");
-  let rename_forms = document.getElementsByClassName("rename_form");
+  let cancel_buttons = document.getElementsByClassName("cancel_button");
   for (let i = 0; i < rename_buttons.length; i++) {
     rename_buttons[i].addEventListener('click', toggle_renaming, false);
+    cancel_buttons[i].addEventListener('click', toggle_canceling, false);
   }
   function toggle_renaming() {
     this.style.visibility = 'hidden';
     this.nextSibling.style.visibility = 'visible';
+  }
+  function toggle_canceling() {
+    this.parentNode.style.visibility = 'hidden';
+    this.parentNode.previousSibling.style.visibility = 'visible';
   }

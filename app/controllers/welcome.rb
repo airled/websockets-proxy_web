@@ -1,18 +1,18 @@
 WebsocketsProxyWeb::App.controllers :welcome do
   
-  get :index, :map => '/' do
+  get :index, map: '/' do
     render 'index'
   end
 
-  get :docs, :map => '/docs' do
+  get :docs, map: '/docs' do
     render 'docs'
   end
 
-  get :contacts, :map => '/contacts' do
+  get :contacts, map: '/contacts' do
     render 'contacts'
   end
 
-  get :account, :map => '/account' do
+  get :account, map: '/account' do
     if current_account
       @profiles = current_account.profiles
       render 'account'
@@ -22,16 +22,16 @@ WebsocketsProxyWeb::App.controllers :welcome do
     end
   end
 
-  get :plugin, :map => '/plugin' do
+  get :plugin, map: '/plugin' do
     name = Dir.glob('public/*.xpi').first.split('/')[1]
     send_file "public/#{name}", filename: "#{name}"
   end
 
-  get :pending, :map => '/pending' do
+  get :pending, map: '/pending' do
     render 'pending'
   end
 
-  get :message, :map => '/message' do
+  get :message, map: '/message' do
     if current_account
       render 'message'
     else
@@ -40,7 +40,7 @@ WebsocketsProxyWeb::App.controllers :welcome do
     end
   end
 
-  post :message, :map => '/message' do
+  post :message, map: '/message' do
     if current_account
       send_email("User's message", "User #{current_account.email} says:\n#{params[:body]}")
       flash[:success] = 'Ваше сообщение отправлено'
@@ -50,12 +50,18 @@ WebsocketsProxyWeb::App.controllers :welcome do
     end
   end
 
-  get :create_user, :map => '/create_user' do
+  get :create_user, map: '/create_user' do
     render 'create_user'
   end
 
-  post :create_user, :map => '/create_user' do
-    account = Account.new(email: params[:email], password: params[:password], password_confirmation: params[:password_confirmation], :role => "user", :port => nil)
+  post :create_user, map: '/create_user' do
+    account = Account.new(
+      email: params[:email],
+      password: params[:password],
+      password_confirmation: params[:password_confirmation],
+      role: "user",
+      port: nil
+    )
     if account.valid?
       account.save
       account.add_default_profile
@@ -71,8 +77,8 @@ WebsocketsProxyWeb::App.controllers :welcome do
 
   post :create_profile, map: '/create_profile' do
     if params[:name] == '' || params[:name].include?(' ')
-      flash[:error] = 'Неправильное имя профиля'
-    elsif !Profile.where(account_id: current_account.id, name: params[:name]).first.nil?
+      flash[:error] = 'Неверное имя профиля'
+    elsif Profile.where(account_id: current_account.id, name: params[:name]).first
       flash[:error] = 'Профиль с таким именем уже существует'
     else
       current_account.add_profile(name: params[:name], queue: generate_uniq_queue)
@@ -82,12 +88,22 @@ WebsocketsProxyWeb::App.controllers :welcome do
   end
 
   delete :remove_profile, map: '/remove_profile' do
-    Profile[params[:profile_id]].destroy
+    profile = Profile[account_id: current_account.id, name: params[:profile_name]]
+    if profile && !profile.active?
+      profile.destroy
+    else
+      flash[:error] = 'Невозможно удалить. Возможно, профиль используется в данный момент'
+    end
     redirect url(:welcome, :account)
   end
 
   patch :rename_profile, map: '/rename_profile' do
-    Profile[params[:profile_id]].update(name: params[:name])
+    profile = Profile[account_id: current_account.id, name: params[:profile_name]]
+    if profile && !profile.active?
+      profile.update(name: params[:name])
+    else
+      flash[:error] = 'Невозможно переименовать. Возможно, профиль используется в данный момент'
+    end
     redirect url(:welcome, :account)
   end
 
