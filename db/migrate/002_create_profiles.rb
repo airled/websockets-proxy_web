@@ -5,7 +5,6 @@ Sequel.migration do
       Integer :account_id
       String :name
       String :queue, unique: true
-      Boolean :active
     end
   end
 

@@ -75,36 +75,9 @@ WebsocketsProxyWeb::App.controllers :welcome do
     end
   end
 
-  post :create_profile, map: '/create_profile' do
-    if params[:name] == '' || params[:name].include?(' ')
-      flash[:error] = 'Неверное имя профиля'
-    elsif Profile.where(account_id: current_account.id, name: params[:name]).first
-      flash[:error] = 'Профиль с таким именем уже существует'
-    else
-      current_account.add_profile(name: params[:name], queue: generate_uniq_queue)
-      flash[:success] = 'Профиль создан'
-    end
-    redirect url(:welcome, :account)
-  end
-
-  delete :remove_profile, map: '/remove_profile' do
-    profile = Profile[account_id: current_account.id, name: params[:profile_name]]
-    if profile && !profile.active?
-      profile.destroy
-    else
-      flash[:error] = 'Невозможно удалить. Возможно, профиль используется в данный момент'
-    end
-    redirect url(:welcome, :account)
-  end
-
-  patch :rename_profile, map: '/rename_profile' do
-    profile = Profile[account_id: current_account.id, name: params[:profile_name]]
-    if profile && !profile.active?
-      profile.update(name: params[:name])
-    else
-      flash[:error] = 'Невозможно переименовать. Возможно, профиль используется в данный момент'
-    end
-    redirect url(:welcome, :account)
+  get :ajax_profiles, map: '/ajax_profiles' do
+    require 'json'
+    Profile.where(account_id: current_account.id).map(:name).to_json
   end
 
 end
