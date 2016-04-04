@@ -76,7 +76,9 @@ WebsocketsProxyWeb::App.controllers :welcome do
   end
 
   get :ajax_profiles, map: '/ajax_profiles' do
+    return unless current_account
     require 'json'
+    content_type "application/json"
     Profile.where(account_id: current_account.id).map(:name).to_json
   end
 
