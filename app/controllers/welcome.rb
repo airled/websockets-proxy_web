@@ -64,8 +64,7 @@ WebsocketsProxyWeb::App.controllers :welcome do
     )
     if account.valid?
       account.save
-      account.add_default_profile
-      send_email('New user registered', "User #{account.email} has been registered.\nhttp://bproxy.muzenza.by/admin/accounts/confirm/#{account.id}")
+      send_email('New user registered', "User #{account.email} has been registered.\nhttp://bproxy.muzenza.by/admin/accounts/confirm/#{account.id}") if Padrino.env == :production
       set_current_account(nil) if current_account
       flash[:success] = 'Ваш аккаунт успешно создан'
       redirect '/pending'

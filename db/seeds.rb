@@ -7,7 +7,6 @@ account = Account.new(email: email, password: password, password_confirmation: p
 
 if account.valid?
   account.save
-  account.add_default_profile
   shell.say "================================================================="
   shell.say "Account has been successfully created, now you can login with:"
   shell.say "================================================================="

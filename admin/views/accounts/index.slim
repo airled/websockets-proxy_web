@@ -29,7 +29,6 @@ div class="tabs-content"
         th class='header' = mat(:account, :email)
         th class='header' = mat(:account, :role)
         th class='header' = mat(:account, :profiles)
-        th class='header' = mat(:account, :active)
         th class='header' = mat(:account, :port)
         th class='header list-row-action-header'
 
@@ -41,11 +40,6 @@ div class="tabs-content"
           td class='list-column' = account.email
           td class='list-column' = account.role
           td class='list-column' = account.profiles.count
-          td class='list-column'
-            - if Profile[account_id: account.id, active: true].nil?
-              | No
-            - else 
-              strong yes
           td class='list-column'
             - if account.port == nil
               strong undefined

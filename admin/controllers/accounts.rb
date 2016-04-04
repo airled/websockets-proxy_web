@@ -1,16 +1,3 @@
-def generate_uniq_queue
-  require 'securerandom'
-  queue = ''
-    loop do
-      current_queue = SecureRandom.hex
-      if Profile[queue: current_queue].nil?
-        queue = current_queue
-        break
-      end
-    end
-  queue
-end
-
 WebsocketsProxyWeb::Admin.controllers :accounts do
   get :index, map: '/' do
     if current_account && current_account.admin?
@@ -31,7 +18,6 @@ WebsocketsProxyWeb::Admin.controllers :accounts do
   post :create do
     @account = Account.new(params[:account])
     if (@account.save rescue false)
-      @account.add_default_profile
       @title = pat(:create_title, :model => "account #{@account.id}")
       flash[:success] = pat(:create_success, :model => 'Account')
       params[:save_and_continue] ? redirect(url(:accounts, :index)) : redirect(url(:accounts, :edit, :id => @account.id))
@@ -140,28 +126,6 @@ WebsocketsProxyWeb::Admin.controllers :accounts do
     @account = Account[params[:id]]
     @profiles = @account.profiles
     render 'accounts/profiles'
-  end
-
-  post :create_profile do
-    if params[:name] == '' || params[:name].include?(' ')
-      flash[:error] = 'Неправильное имя профиля'
-    elsif !Profile.where(account_id: params[:account_id], name: params[:name]).first.nil?
-      flash[:error] = 'Профиль с таким именем уже существует'
-    else
-      Account[params[:account_id]].add_profile(name: params[:name], queue: generate_uniq_queue)
-      flash[:success] = 'Профиль создан'
-    end
-    redirect url(:accounts, :profiles, id: params[:account_id])
-  end
-
-  delete :remove_profile, map: '/remove_profile' do
-    Profile[params[:profile_id]].destroy
-    redirect url(:accounts, :profiles, id: params[:account_id])
-  end
-
-  patch :rename_profile, map: '/rename_profile' do
-    Profile[params[:profile_id]].update(name: params[:name])
-    redirect url(:accounts, :profiles, id: params[:account_id])
   end
 
 end
