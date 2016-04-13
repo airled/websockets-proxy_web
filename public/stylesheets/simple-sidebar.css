@@ -20,6 +20,15 @@
     background: #000;
 }
 
+@media (max-width: 1023px) {
+    #sidebar-wrapper {
+        display: none;
+    }
+    #wrapper {
+        padding-left: 0px;
+    }
+}
+
 #page-content-wrapper {
     width: 100%;
     position: relative;
