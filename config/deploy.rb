@@ -50,10 +50,10 @@ end
 
 desc "Starts the application remotely."
 task :start => :environment do
-  queue "source ~/.zshrc && cd current && bundle exec thin -C config/thin.yml -R config.ru start"
+  queue "source ~/.zshrc && cd current && bundle exec foreman start"
 end
 
 desc "Stops the application remotely."
 task :stop => :environment do
-  queue "cd current && bundle exec thin stop"
+  queue "cd current && sidekiqctl stop tmp/pids/sidekiq.pid && bundle exec thin stop"
 end

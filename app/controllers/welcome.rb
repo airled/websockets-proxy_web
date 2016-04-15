@@ -42,7 +42,7 @@ WebsocketsProxyWeb::App.controllers :welcome do
 
   post :message, map: '/message' do
     if current_account
-      send_email("User's message", "User #{current_account.email} says:\n#{params[:body]}")
+      MailSender.perform_async("User's message", "User #{current_account.email} says:\n#{params[:body]}") if Padrino.env == :production
       flash[:success] = 'Ваше сообщение отправлено'
       redirect '/'
     else
@@ -64,7 +64,7 @@ WebsocketsProxyWeb::App.controllers :welcome do
     )
     if account.valid?
       account.save
-      send_email('New user registered', "User #{account.email} has been registered.\nhttp://bproxy.muzenza.by/admin/accounts/confirm/#{account.id}") if Padrino.env == :production
+      MailSender.perform_async('New user registered', "User #{account.email} has been registered.\nhttp://bproxy.muzenza.by/admin/accounts/confirm/#{account.id}") if Padrino.env == :production
       set_current_account(nil) if current_account
       flash[:success] = 'Ваш аккаунт успешно создан'
       redirect '/pending'
