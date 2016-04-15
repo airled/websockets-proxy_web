@@ -8,7 +8,7 @@ gem 'sequel'
 gem 'padrino', '0.13.1'
 gem 'thin'
 gem 'mina'
-gem 'sidekiq'
+gem 'sidekiq', '3.5.4'
 gem 'foreman'
 gem 'mail'
 
