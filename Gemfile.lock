@@ -8,7 +8,23 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     bcrypt (3.1.10)
-    concurrent-ruby (1.0.1)
+    celluloid (0.17.3)
+      celluloid-essentials
+      celluloid-extras
+      celluloid-fsm
+      celluloid-pool
+      celluloid-supervision
+      timers (>= 4.1.1)
+    celluloid-essentials (0.20.5)
+      timers (>= 4.1.1)
+    celluloid-extras (0.20.5)
+      timers (>= 4.1.1)
+    celluloid-fsm (0.20.5)
+      timers (>= 4.1.1)
+    celluloid-pool (0.20.5)
+      timers (>= 4.1.1)
+    celluloid-supervision (0.20.5)
+      timers (>= 4.1.1)
     connection_pool (2.2.0)
     daemons (1.2.3)
     diff-lcs (1.2.5)
@@ -16,6 +32,7 @@ GEM
     eventmachine (1.0.9.1)
     foreman (0.78.0)
       thor (~> 0.19.1)
+    hitimes (1.2.3)
     i18n (0.7.0)
     json (1.8.3)
     mail (2.6.3)
@@ -71,6 +88,8 @@ GEM
       rack (>= 1.0)
     rake (10.5.0)
     redis (3.2.2)
+    redis-namespace (1.5.2)
+      redis (~> 3.0, >= 3.0.4)
     rspec (3.4.0)
       rspec-core (~> 3.4.0)
       rspec-expectations (~> 3.4.0)
@@ -85,10 +104,12 @@ GEM
       rspec-support (~> 3.4.0)
     rspec-support (3.4.1)
     sequel (4.31.0)
-    sidekiq (4.1.1)
-      concurrent-ruby (~> 1.0)
+    sidekiq (3.5.4)
+      celluloid (~> 0.17.2)
       connection_pool (~> 2.2, >= 2.2.0)
+      json (~> 1.0)
       redis (~> 3.2, >= 3.2.1)
+      redis-namespace (~> 1.5, >= 1.5.2)
     sinatra (1.4.7)
       rack (~> 1.5)
       rack-protection (~> 1.4)
@@ -104,6 +125,8 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (1.4.1)
+    timers (4.1.1)
+      hitimes
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
 
@@ -121,7 +144,7 @@ DEPENDENCIES
   rake
   rspec
   sequel
-  sidekiq
+  sidekiq (= 3.5.4)
   slim
   thin
 
